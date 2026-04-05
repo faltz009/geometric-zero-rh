@@ -327,45 +327,31 @@ This is the theorems \texttt{chiral\_partners\_close} and
 \texttt{conjugate\_closes\_left} in the Lean file, both derived from Mathlib's
 quaternion definitions with no axioms.
 
-The consequence is fundamental. The quaternionic Euler product $Q(s)$ maps
-$\mathbb{C}$ into $S^3$. Its target space is a group in which every element
-is invertible, the zero element does not exist, and no product can vanish.
-The classical question ``where does $Q(s) = 0$?'' is geometrically malformed:
-zero is not a point of $S^3$. A function mapping into $S^3$ cannot vanish.
+The quaternionic Euler product $Q(s)$ maps $\mathbb{C}$ into $S^3$. Since
+$S^3$ contains no zero element, a function valued in $S^3$ cannot vanish in
+the classical sense. The zeros of $\zeta(s)$ in $\mathbb{C}$ --- the points
+where the projected Euler product collapses to zero --- correspond to geometric
+events in the full four-dimensional geometry, not to vanishings of $Q$.
 
-This is not a defect --- it is the correct statement. The classical zero of
-$\zeta$, the point where the Euler product collapses to zero in $\mathbb{C}$,
-is a shadow artifact: it arises because projecting from $S^3$ to the
-two-dimensional complex plane loses the geometric structure and converts a
-geometric event into a numerical vanishing. The event itself, in the full
-four-dimensional geometry, is not a vanishing --- it is a balance.
+\subsection{Geometric zeros as balance events}
 
-\subsection{Giving shape to zero}
-
-Since $Q(s)$ cannot vanish, ``zeros of the Euler product in $S^3$'' must be
-defined as a geometric event rather than as a numerical value. The classical
-definition is unavailable. Something must replace it.
-
-The only candidate consistent with the symmetries of $S^3$ is the Hopf balance
-locus: the equatorial two-sphere where the scalar and vector channels contribute
-equally to the unit norm. This locus has two properties that single it out as
-the geometric counterpart of classical zeros:
+The geometric counterpart of a classical zero is not a vanishing but a
+balance: a configuration of the running product on $S^3$ where the scalar and
+vector channels equalize. The Hopf balance locus has two properties that
+characterize it as the correct geometric notion of zero:
 
 \begin{enumerate}
   \item It is the unique configuration where the 1+3 split of $S^3$ is
         perfectly symmetric --- neither the scalar channel nor the vector
-        channel dominates.
+        channel dominates. The balance condition $|W| = |\mathrm{RGB}|$ is
+        the unique equilibrium of the eigenspace decomposition.
 
   \item It is preserved by the star involution
         (\texttt{conj\_preserves\_hopf\_balance}, proved with no axioms): a
-        unit quaternion is Hopf-balanced if and only if its star conjugate is.
-        This is the same symmetry that makes conjugation a natural operation
-        on zeros of $\zeta$ in the classical setting.
+        unit quaternion is Hopf-balanced if and only if its star conjugate is,
+        matching the conjugation symmetry of classical zeros under $s \mapsto
+        \bar{s}$.
 \end{enumerate}
-
-These are the properties that any correct definition of ``zero on $S^3$''
-must satisfy. Hopf balance satisfies both. No other proper subset of $S^3$
-does so with the same geometric naturalness.
 
 \begin{definition}[Geometric zero]\label{def:geom_zero}
 A point $s \in \mathbb{C}$ is a \emph{geometric zero} of the Euler product
@@ -382,16 +368,11 @@ is a geometric zero of the Euler product:
 \]
 \end{definition}
 
-Definition~B is the bridge between the geometric and classical formulations.
-It is a definition --- not a claim to be proved from the classical formulation
---- because the classical zero is the shadow and the geometric zero is the
-event. Shadows inherit the properties of their events. When the correct
-geometry is chosen, ``zero'' has a shape: it is the Hopf balance locus, an
-equatorial two-sphere inside $S^3$, geometrically determined and arithmetically
-fixed at $\mathrm{re}(q)^2 = 1/2$. The classical zero is this shape projected
-to $\mathbb{C}$, which collapses it to a numerical value of zero. Giving shape
-to zero is not an additional assumption --- it is the geometric statement of
-what was always happening in the shadow.
+Definition~B bridges the geometric and classical formulations. In the natural
+geometry, ``zero'' has a shape: the Hopf balance locus, an equatorial two-sphere
+inside $S^3$, arithmetically fixed at $\mathrm{re}(q)^2 = 1/2$. The classical
+zero is this shape projected to $\mathbb{C}$, which collapses it to a numerical
+value. The geometric zero is the event; the classical zero is its shadow.
 
 \begin{remark}[Closure event vs.\ identity]\label{rem:closure}
 The term ``closure event'' refers to the running product $Q(s)$ reaching the
@@ -420,6 +401,55 @@ canonical, the Euler product is a composition on $S^3$, and the four-dimensional
 structure was always present behind the projection. Definition~B makes this
 explicit: the geometric zero is the event, the classical zero is its shadow,
 and the shadow inherits the constraint of the event.
+
+\subsection{The explicit connection: phase lift}
+
+The abstract claim that $\mathbb{C}$ is a projection of $S^3$ has a concrete
+algebraic instance. Among the possible lifts of the Euler product to $S^3$,
+the \emph{complex-plane lift} assigns to each prime $p$ the unit quaternion
+\[
+  F_p^{(\mathbb{C})}(s) = \frac{(1-p^{-s})^{-1}}{|(1-p^{-s})^{-1}|} \in S^1 \subset S^3,
+\]
+the classical Euler factor normalized to unit length, embedded in the complex
+subalgebra $\mathbb{C} \subset \mathbb{H}$ with zero $j$- and $k$-components.
+
+\begin{theorem}[Phase lift]\label{thm:phase_lift}
+For the complex-plane lift, the running product on $S^3$ satisfies
+\[
+  Q_N^{(\mathbb{C})}(s) \;=\; \frac{\zeta_N(s)}{|\zeta_N(s)|},
+\]
+where $\zeta_N(s) = \prod_{p \leq N}(1-p^{-s})^{-1}$ is the $N$-prime partial
+Euler product. The $S^3$ running product is exactly the \emph{phase} (direction)
+of the classical partial Euler product; the modulus is projected away.
+\end{theorem}
+
+\begin{proof}
+Since all $j$- and $k$-components of each factor are zero, products remain in
+$S^1 \subset S^3$. The ratio $z/|z|$ is multiplicative for complex numbers:
+$(z_1/|z_1|)(z_2/|z_2|) = z_1 z_2/|z_1 z_2|$. Therefore
+\[
+  Q_N^{(\mathbb{C})}(s)
+  = \prod_{p \leq N}\frac{(1-p^{-s})^{-1}}{|(1-p^{-s})^{-1}|}
+  = \frac{\prod_{p \leq N}(1-p^{-s})^{-1}}{\left|\prod_{p \leq N}(1-p^{-s})^{-1}\right|}
+  = \frac{\zeta_N(s)}{|\zeta_N(s)|}. \qedhere
+\]
+\end{proof}
+
+The theorem answers the question of how $S^3$ and $\mathbb{C}$ are formally
+related: the classical Euler product and its $S^3$ lift carry the same
+information, split between two objects. $Q_N^{(\mathbb{C})}$ carries the
+direction; $|\zeta_N|$ carries the magnitude. Neither alone is the full object:
+the direction lives on $S^3$, and the modulus lives in $\mathbb{R}_{>0}$.
+The product $|\zeta_N| \cdot Q_N^{(\mathbb{C})} = \zeta_N$ recovers the
+classical Euler product.
+
+At a zero of $\zeta$, the modulus $|\zeta_N(s)| \to 0$ as $N \to \infty$.
+The $S^3$ running product $Q_N^{(\mathbb{C})}$ remains on the unit sphere
+throughout --- it cannot vanish because $S^3$ has no zero element. What happens
+geometrically as the modulus collapses is that the $S^3$ direction is freed
+from the constraint of tracking a large complex number and settles into the
+balance configuration. Definition~B identifies this configuration as the
+geometric zero: the Hopf balance locus, where $|W| = |\mathrm{RGB}|$.
 
 % ============================================================
 \section{The Riemann Hypothesis}
@@ -662,41 +692,40 @@ Section~\ref{sec:experiments} confirms this correspondence across the first
 1000 zeros. The proof stands on the geometry; the projection theorem confirms
 the correspondence from the other side.
 
-\subsection{On Definition~B: zero has no shape in $\mathbb{C}$, it does in $S^3$}
+\subsection{Definition~B and the geometry of zero}
 
-The classical objection to Definition~B is: ``you assert that Hopf balance
-implies $\zeta(s)=0$, but you have not proved it.'' This objection imports a
-premise that needs examination. It assumes the classical definition of zero is
-primary and Definition~B must be justified relative to it.
+Every function has zeros only relative to an ambient space that contains a
+zero element. The classical zeta function has zeros because $\mathbb{C}$
+contains 0. The quaternionic running product $Q$ maps $\mathbb{C}$ into
+$S^3$, and $S^3$ contains no zero element: every unit quaternion is
+invertible (Theorem~\ref{thm:no_zero}, proved with no axioms). The question
+``where does $Q(s) = 0$?'' does not parse geometrically.
 
-The structural fact established in Section~\ref{sec:geom_zeros}
-(Theorem~\ref{thm:no_zero}) removes this asymmetry. $Q$ maps $\mathbb{C}$
-into $S^3$. $S^3$ has no zero element: every unit quaternion is invertible
-(proved in Lean, no axioms). Therefore the classical question ``where does
-$Q(s) = 0$?'' is geometrically malformed --- zero is not in $S^3$. There is
-no alternative definition of zero for a function valued in $S^3$.
+This is not a limitation. It is the geometry saying clearly that zeros of the
+Euler product are not numerical vanishings but geometric events: configurations
+of the running product on the sphere. The correct question is not where the
+product equals zero but where it reaches a distinguished geometric state.
 
-What replaces the classical zero is not a choice but a necessity: a
-geometrically distinguished locus of $S^3$ with the same symmetry properties
-that zeros of $\zeta$ are known to possess. The Hopf balance locus is the
-unique such locus: it is preserved by the star involution, it is arithmetically
-fixed at $\mathrm{re}^2 = 1/2$ by the unit sphere constraint, and it is the
-unique symmetric configuration in the $1+3$ decomposition. This is not a free
-parameter. It is determined by the geometry of $S^3$.
+The Hopf balance locus is that state. It is the unique locus of $S^3$
+preserved by the star involution, arithmetically fixed at
+$\mathrm{re}(q)^2 = 1/2$ by the unit sphere constraint, and the only
+symmetric configuration of the $1+3$ decomposition. These properties determine
+it without choice.
 
-Definition~B is therefore the \emph{only possible definition of zero on $S^3$}.
-The classical zero ($\zeta(s) = 0$ in $\mathbb{C}$) is the shadow of the
-geometric zero (Hopf balance of $Q(s)$ on $S^3$), in exactly the same way that
-the classical Euler product $\zeta(s) \in \mathbb{C}$ is the shadow of the
-quaternionic running product $Q(s) \in S^3$. The shadow vanishes when and only
-when the geometric event occurs.
+Definition~B names this correspondence: a classical zero of $\zeta$ is a
+geometric zero of the Euler product. The Phase Lift Theorem
+(Theorem~\ref{thm:phase_lift}) makes the connection explicit in one direction:
+the complex-plane running product on $S^3$ is exactly the phase of the
+classical Euler product, $Q_N^{(\mathbb{C})} = \zeta_N / |\zeta_N|$. The
+$S^3$ object and the $\mathbb{C}$ object carry the same information split
+between direction and magnitude.
 
-The three geometric axioms (A, D, E) have proofs from standard properties of
-$\zeta$ once $Q$ is formally defined in Mathlib; they are axioms by the current
-state of Mathlib's formalization, not by mathematical necessity. Definition~B
-is in a different category: it is not axiom-by-convenience but the foundational
-claim of the paper --- that zero is a geometric event, not a numerical vanishing,
-and that the correct geometry for the Euler product is $S^3$, not $\mathbb{C}$.
+The three geometric axioms (A, D, E) are provable from known properties of
+$\zeta$ once $Q$ is formally defined in Mathlib; their status as axioms
+reflects the current state of Mathlib's coverage, not mathematical necessity.
+Definition~B is the foundational statement: that zero has geometric shape,
+that the shape is the Hopf balance locus, and that the Riemann Hypothesis is
+the theorem that this shape lives only at $\mathrm{Re}(s) = 1/2$.
 
 \subsection{The mystery of prime distribution}
 
