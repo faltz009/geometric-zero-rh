@@ -178,6 +178,36 @@ theorem hopf_balance_splits_sphere (q : ℍ[ℝ]) (hunit : Quaternion.normSq q =
     linarith [normSq_components q, hunit]
   exact ⟨hre, by linarith⟩
 
+/-- No unit quaternion is simultaneously Hopf-balanced and fixed by the star
+    involution. The star involution fixes a quaternion only when all its
+    imaginary parts vanish (making it a real scalar — the north or south pole
+    of S³). Hopf balance requires the imaginary parts to carry total squared
+    norm 1/2, ruling out the scalar case.
+
+    Consequence: geometric zeros are never self-paired by the functional
+    equation. The map s ↦ 1−s is a true ℤ/2 mirror on the zero set, sending
+    every zero to a distinct partner. Combined with uniqueness per fiber
+    (Axiom D), both s and its partner share Re(s) = 1/2. -/
+theorem hopf_balanced_not_star_fixed (q : ℍ[ℝ])
+    (hunit : Quaternion.normSq q = 1) (hbal : IsHopfBalanced q) :
+    star q ≠ q := by
+  intro heq
+  have himI : q.imI = 0 := by
+    have h : (star q).imI = q.imI := congrArg (fun x : ℍ[ℝ] => x.imI) heq
+    rw [Quaternion.imI_star] at h; linarith
+  have himJ : q.imJ = 0 := by
+    have h : (star q).imJ = q.imJ := congrArg (fun x : ℍ[ℝ] => x.imJ) heq
+    rw [Quaternion.imJ_star] at h; linarith
+  have himK : q.imK = 0 := by
+    have h : (star q).imK = q.imK := congrArg (fun x : ℍ[ℝ] => x.imK) heq
+    rw [Quaternion.imK_star] at h; linarith
+  have hns : q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 = 1 := by
+    linarith [normSq_components q]
+  have : q.imI ^ 2 = 0 := by simp [himI]
+  have : q.imJ ^ 2 = 0 := by simp [himJ]
+  have : q.imK ^ 2 = 0 := by simp [himK]
+  linarith [(hopf_balance_iff_half q hunit).mp hbal]
+
 end Geometry
 
 -- ============================================================================
@@ -275,6 +305,20 @@ theorem geometric_riemann_hypothesis (s : ℂ) (hbal : IsHopfBalanced (Q s)) :
   have hre_val : ((1 : ℂ) - starRingEnd ℂ s).re = 1 - s.re := by
     simp [Complex.sub_re, Complex.one_re]
   linarith [hre.trans hre_val]
+
+/-- Geometric zeros are paired: if Q(s) is Hopf-balanced then so is Q(1−s).
+    This follows immediately from Axiom A (the functional equation acts as
+    quaternion conjugation: Q(1−s) = star(Q(s))) and the fact that conjugation
+    preserves Hopf balance (conj_preserves_hopf_balance).
+
+    Together with hopf_balanced_not_star_fixed (proved with zero axioms), this
+    establishes that the zero set has a free ℤ/2 action: s ↦ 1−s pairs every
+    zero with a distinct partner. The geometric RH (Re(s) = 1/2) forces both
+    to share the same real part. Since Re(1−s) = 1 − Re(s), both equal 1/2. -/
+theorem hopf_zeros_paired (s : ℂ) (hbal : IsHopfBalanced (Q s)) :
+    IsHopfBalanced (Q ((1 : ℂ) - s)) := by
+  rw [func_eq_conj]
+  exact (conj_preserves_hopf_balance _).mpr hbal
 
 end GeometricRH
 
