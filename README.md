@@ -120,11 +120,17 @@ repository:
 
 ## Support this work
 
-This research is conducted independently at the Open Research Institute.
-If you find it valuable, support is welcome:
+This research is conducted independently. Every paper and line of code
+was done on personal time and released for free. If you find it valuable,
+any support is genuinely appreciated.
 
-- GitHub Sponsors: [github.com/sponsors/faltz009](https://github.com/sponsors/faltz009)
-- The geometric computer this builds on: [closure-verification](https://github.com/faltz009/closure-verification)
+| Method | Address |
+|---|---|
+| BTC | `155jaKugGGhdwX2Dp55bfHWpWbWD3Gr3PG` |
+| ETH (ERC-20) | `0x31f0253180b03c16a0aa2d7091311d7363ef22a4` |
+| PIX (Brazil) | `walter.h057@gmail.com` |
+
+The geometric computer this work builds on: [closure-verification](https://github.com/faltz009/closure-verification)
 
 ## Citation
 
