@@ -189,7 +189,13 @@ section GeometricRH
 noncomputable axiom Q : ℂ → ℍ[ℝ]
 
 /-- The running product Q(s) lives on S³ for all s ∈ ℂ, because the product
-    of unit quaternions is a unit quaternion. -/
+    of unit quaternions is a unit quaternion.
+
+    Note: Q_unit is not invoked in the proof of `riemann_hypothesis` — the
+    proof operates on the abstract predicate `IsHopfBalanced` via the symmetry
+    axioms. Q_unit is the geometric justification for why Axiom D holds: it is
+    because Q lives on S³ that the W component p^(−σ) is monotone in σ and
+    Hopf balance is unique per fiber. -/
 axiom Q_unit (s : ℂ) : Quaternion.normSq (Q s) = 1
 
 /-- The functional equation of the completed zeta function, ξ(s) = ξ(1−s),

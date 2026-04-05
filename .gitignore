@@ -1,0 +1,7 @@
+lean_proofs/.lake/
+lean_proofs/lake-manifest.json
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
