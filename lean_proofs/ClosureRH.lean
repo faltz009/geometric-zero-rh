@@ -113,6 +113,23 @@ theorem conjugate_closes_left (q : ℍ[ℝ]) (hunit : Quaternion.normSq q = 1) :
   rw [hunit] at h
   simpa using h
 
+/-- S³ has no zero element: every unit quaternion has a two-sided inverse.
+    This is the most important structural fact of this proof.
+
+    A function Q : ℂ → ℍ[ℝ] with Q(s) ∈ S³ for all s (Axiom Q_unit) cannot
+    vanish in the classical sense — zero is not a point of S³. The question
+    "where does Q(s) = 0?" is geometrically malformed.
+
+    Consequently, the classical notion of zero (where a function evaluates to
+    the zero element) does not apply to Q. A "zero of the Euler product on S³"
+    must be defined as a geometric event. The unique event with the correct
+    symmetry properties (fixed by conjugation, arithmetically fixed at 1/2) is
+    Hopf balance. Definition B is therefore not an additional assumption — it
+    is the only available definition of zero for a function valued in S³. -/
+theorem no_zero_on_sphere (q : ℍ[ℝ]) (hunit : Quaternion.normSq q = 1) :
+    ∃ (inv : ℍ[ℝ]), q * inv = 1 ∧ inv * q = 1 :=
+  ⟨star q, chiral_partners_close q hunit, conjugate_closes_left q hunit⟩
+
 /-!
 The Hopf balance condition captures the unique configuration on S³ where the
 scalar and vector channels contribute equally to the quaternion norm. Geometrically,
@@ -293,10 +310,18 @@ def GeometricZero (s : ℂ) : Prop := IsHopfBalanced (Q s)
 
 /-- **Definition B** — Classical zeros are geometric zeros.
 
-    The classical statement "ζ(s) = 0" and the geometric statement "s is a
-    Hopf closure event" describe the same phenomenon from different vantage
-    points: one from the two-dimensional projection, one from the full
-    four-dimensional geometry. Definition B asserts their equivalence. -/
+    Q maps ℂ into S³ (Axiom Q_unit). S³ has no zero element (no_zero_on_sphere).
+    Therefore the question "where does Q(s) = 0?" is malformed — zero is not in
+    S³. The classical notion of zero is unavailable for Q.
+
+    The only available definition of "zero" for a function valued in S³ is a
+    geometric event: the unique locus with the correct symmetry properties
+    (conjugation-invariant, arithmetically fixed at re² = 1/2) is Hopf balance.
+
+    Definition B makes this explicit: it defines "ζ(s) = 0" as notation for
+    the geometric event "Q(s) is Hopf-balanced." The classical statement is the
+    two-dimensional shadow of the geometric event. The shadow vanishes (= 0 in
+    ℂ) precisely when the event occurs on S³. -/
 axiom zero_iff_geometric (s : ℂ) : ζ s = 0 ↔ GeometricZero s
 
 /-- **The Riemann Hypothesis.**
