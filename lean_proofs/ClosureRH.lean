@@ -305,8 +305,21 @@ noncomputable axiom ζ : ℂ → ℂ
 
 /-- A point s ∈ ℂ is a *geometric zero* of the Euler product when Q(s)
     reaches Hopf balance on S³. This is the definition of zero in the natural
-    geometry of the problem. -/
+    geometry of the problem.
+
+    Synonyms used in the paper and elsewhere:
+      · geometric zero      — the primary term (what this predicate formalizes)
+      · closure event       — same concept in the Closure framework language
+      · Hopf closure event  — same concept, emphasizing the Hopf fibration
+      · algebraic zero      — the classical shadow: ζ(s) = 0 in ℂ (Definition B)
+
+    These are all the same event viewed from different vantage points.
+    `GeometricZero s` is the S³ statement; `ζ s = 0` is its ℂ shadow. -/
 def GeometricZero (s : ℂ) : Prop := IsHopfBalanced (Q s)
+
+/-- Alias: a *closure event* at s is the same as a geometric zero at s.
+    The Closure framework term and the geometric term are definitionally equal. -/
+def ClosureEvent (s : ℂ) : Prop := GeometricZero s
 
 /-- **Definition B** — Classical zeros are geometric zeros.
 
