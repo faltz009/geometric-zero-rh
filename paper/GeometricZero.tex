@@ -46,13 +46,16 @@ four-dimensional sphere, and the Euler product built from primes is a
 composition on that sphere. The zeta function in the complex plane is a
 two-dimensional shadow of this four-dimensional object.
 
-This paper defines a \emph{geometric zero}: a point where the running product
-on the sphere reaches the equator where its one scalar dimension and three
-vector dimensions are exactly balanced. A one-line algebraic identity shows
-this balance forces $\mathrm{Re}(s) = 1/2$, and the functional equation,
-acting as a mirror symmetry on the sphere, locks every closure event to this
-line. The Riemann Hypothesis is a consequence of the geometry: every zero lies
-on $\mathrm{Re}(s) = 1/2$ because the sphere permits closure nowhere else.
+This paper defines a \emph{geometric zero} (also called a \emph{closure
+event} or \emph{Hopf closure event}): a point where the running product on the
+sphere reaches the equator where its one scalar dimension and three vector
+dimensions are exactly balanced. The classical zero of $\zeta$ in $\mathbb{C}$
+--- equivalently, an \emph{algebraic zero} --- is the two-dimensional shadow
+of this geometric event. A one-line algebraic identity shows the balance forces
+$\mathrm{Re}(s) = 1/2$, and the functional equation, acting as a mirror
+symmetry on the sphere, locks every geometric zero to this line. The Riemann
+Hypothesis is a consequence of the geometry: every algebraic zero lies on
+$\mathrm{Re}(s) = 1/2$ because the sphere permits geometric zeros nowhere else.
 
 The argument is formalized in Lean~4 with Mathlib (zero \texttt{sorry}),
 validated experimentally on the first 1000 Riemann zeros, and independently
@@ -353,16 +356,18 @@ characterize it as the correct geometric notion of zero:
         \bar{s}$.
 \end{enumerate}
 
-\begin{definition}[Geometric zero]\label{def:geom_zero}
-A point $s \in \mathbb{C}$ is a \emph{geometric zero} of the Euler product
-when $Q(s)$ is Hopf-balanced: when the quaternionic running product at $s$
-reaches the equatorial locus of $S^3$ where the scalar and vector channels
-are in exact balance.
+\begin{definition}[Geometric zero / closure event]\label{def:geom_zero}
+A point $s \in \mathbb{C}$ is a \emph{geometric zero} of the Euler product ---
+equivalently, a \emph{Hopf closure event} or \emph{closure event} --- when
+$Q(s)$ is Hopf-balanced: when the quaternionic running product at $s$ reaches
+the equatorial locus of $S^3$ where the scalar and vector channels are in
+exact balance. These terms are synonymous throughout the paper and in the Lean
+formalization, where the predicate is \texttt{GeometricZero}.
 \end{definition}
 
 \begin{definition}[Definition B]\label{def:B}
-A point $s \in \mathbb{C}$ is a classical zero of $\zeta$ if and only if it
-is a geometric zero of the Euler product:
+A point $s \in \mathbb{C}$ is a \emph{classical zero} (or \emph{algebraic
+zero}) of $\zeta$ if and only if it is a geometric zero of the Euler product:
 \[
   \zeta(s) = 0 \;\iff\; Q(s) \text{ is Hopf-balanced}.
 \]
