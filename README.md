@@ -100,7 +100,7 @@ the classical Riemann Hypothesis in one line.
 
 ## Paper
 
-`paper/PrimesOnS3_RH.tex` — compile with `pdflatex PrimesOnS3_RH.tex`.
+`paper/GeometricZero.tex` — compile with `pdflatex GeometricZero.tex`.
 
 ## Experimental validation
 
