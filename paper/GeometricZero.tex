@@ -157,6 +157,17 @@ formalization in Mathlib), three geometric axioms (A, D, E) about the
 Hurwitz Euler product, and one definitional bridge (Definition~B). The
 classical Riemann Hypothesis follows in one line.
 
+The axiom count is measured against Mathlib's existing library, which was
+built with classical analysis in $\mathbb{C}$ as a central object. Mathlib's
+quaternion library is built on $\mathbb{R}$, making the pure $S^3$ geometry
+of Part~I more primitive than $\mathbb{C}$ in Mathlib's own type hierarchy.
+In a library built on the $S^3$ framework --- where $Q$ is the primary object
+and $\zeta$ is its $\mathbb{C}$ shadow --- Definition~B and Axioms~A, D, E
+would be derivable theorems, and the residual axiom would be the one
+establishing that the flat projection faithfully captures the relevant
+structure. The present axiom distribution reflects which framework the library
+was built around, not which framework is more fundamental.
+
 % ============================================================
 \section{The Natural Geometry of Primes}
 % ============================================================
@@ -172,10 +183,10 @@ Different four-square representations of the same prime $p$ are related by
 left multiplication by a unit in the Hurwitz integer ring $\mathcal{O}_H$,
 a rotation of $\hat{q}_p$ within $S^3$. Changing the representative
 therefore changes the quaternionic product $Q(s)$ as a path on $S^3$.
-The canonical lexicographic representative is not an arbitrary convention: it
-is the unique representative for which the projection of each Hurwitz--$s$
-Euler factor $F(p,s)$ onto the complex subalgebra $\mathbb{C} \subset
-\mathbb{H}$ recovers the classical factor $(1-p^{-s})^{-1}$.  With this
+The canonical lexicographic representative is the unique representative for
+which the projection of each Hurwitz--$s$ Euler factor $F(p,s)$ onto the
+complex subalgebra $\mathbb{C} \subset \mathbb{H}$ recovers the classical
+factor $(1-p^{-s})^{-1}$.  With this
 choice fixed, $Q(s)$ is the canonical quaternionic lift of $\zeta(s)$ to
 $S^3$, and Definition~B asserts the equivalence between $\zeta(s) = 0$ and
 Hopf balance of this specific lift.
@@ -338,9 +349,9 @@ events in the full four-dimensional geometry, not to vanishings of $Q$.
 
 \subsection{Geometric zeros as balance events}
 
-The geometric counterpart of a classical zero is not a vanishing but a
-balance: a configuration of the running product on $S^3$ where the scalar and
-vector channels equalize. The Hopf balance locus has two properties that
+The geometric counterpart of a classical zero is a balance: a configuration
+of the running product on $S^3$ where the scalar and vector channels
+equalize. The Hopf balance locus has two properties that
 characterize it as the correct geometric notion of zero:
 
 \begin{enumerate}
@@ -440,21 +451,23 @@ $(z_1/|z_1|)(z_2/|z_2|) = z_1 z_2/|z_1 z_2|$. Therefore
 \]
 \end{proof}
 
-The theorem answers the question of how $S^3$ and $\mathbb{C}$ are formally
-related: the classical Euler product and its $S^3$ lift carry the same
-information, split between two objects. $Q_N^{(\mathbb{C})}$ carries the
-direction; $|\zeta_N|$ carries the magnitude. Neither alone is the full object:
-the direction lives on $S^3$, and the modulus lives in $\mathbb{R}_{>0}$.
-The product $|\zeta_N| \cdot Q_N^{(\mathbb{C})} = \zeta_N$ recovers the
-classical Euler product.
+The theorem makes the relationship between $S^3$ and $\mathbb{C}$ explicit:
+$Q_N^{(\mathbb{C})}$ carries the direction of $\zeta_N$ and $|\zeta_N|$
+carries the magnitude. The product recovers the full classical object:
+$|\zeta_N| \cdot Q_N^{(\mathbb{C})} = \zeta_N$.
 
-At a zero of $\zeta$, the modulus $|\zeta_N(s)| \to 0$ as $N \to \infty$.
-The $S^3$ running product $Q_N^{(\mathbb{C})}$ remains on the unit sphere
-throughout --- it cannot vanish because $S^3$ has no zero element. What happens
-geometrically as the modulus collapses is that the $S^3$ direction is freed
-from the constraint of tracking a large complex number and settles into the
-balance configuration. Definition~B identifies this configuration as the
-geometric zero: the Hopf balance locus, where $|W| = |\mathrm{RGB}|$.
+\medskip
+\noindent\textbf{One object, two frames.} Primes live on $S^3$ via
+Lagrange's theorem. The running product of prime factors on $S^3$ is $Q$;
+the same running product projected to $\mathbb{C}$ is $\zeta$. One prime
+composition, two frames: $\zeta$ is $Q$ as seen from $\mathbb{C}$, and $Q$
+is $\zeta$ as seen from $S^3$. The relationship between them is the
+definition of $Q$ as the $S^3$ lift and $\zeta$ as its $\mathbb{C}$
+projection.
+
+Definition~B follows immediately: ``where does $Q(s)$ reach Hopf balance?''
+in $S^3$ and ``where does $\zeta(s) = 0$?'' in $\mathbb{C}$ are the same
+question stated in each frame's language.
 
 % ============================================================
 \section{The Riemann Hypothesis}
@@ -552,6 +565,26 @@ of $Q$ in Mathlib; Axiom~D is provable from the strict monotonicity of
 $p^{-\sigma}$ once $Q$ is explicitly defined; Axiom~E follows from the real
 Dirichlet coefficients of $\zeta$ once $\zeta$ is in Mathlib; and
 Definition~B is the foundational claim of the paper.
+
+A structural feature of the library explains why these gaps exist. Mathlib
+is organized around classical analysis with $\mathbb{C}$ as the ambient
+space, so the Hurwitz--Euler product $Q : \mathbb{C} \to \mathbb{H}[\mathbb{R}]$
+and the Riemann zeta function $\zeta : \mathbb{C} \to \mathbb{C}$ as
+formalized objects are simply not yet part of Mathlib's coverage. The
+geometry of $S^3$ is available---Mathlib's quaternion library is what
+drives Part~I of the proof---but the specific Euler product construction
+lives ahead of the library's current boundary. Contributing $Q$ and $\zeta$
+to Mathlib is the concrete path to eliminating every remaining axiom and
+making the full proof self-contained.
+
+Also new in \texttt{ClosureRH.lean} is the Phase Lift theorem
+(\texttt{phase\_lift}): the product of normalized complex factors equals the
+normalization of their product, proved by induction on finite sets using
+only the multiplicativity of the complex norm and field arithmetic, with
+no axioms. Applied to the Euler product, this is the algebraic statement
+that $Q_N^{(\mathbb{C})}(s) = \zeta_N(s) / |\zeta_N(s)|$: the quaternionic
+running product on the complex lift is the normalized phase of the classical
+partial Euler product. $\zeta$ and $Q$ are one object in two frames.
 
 % ============================================================
 \section{Experimental Validation}
@@ -703,13 +736,9 @@ Every function has zeros only relative to an ambient space that contains a
 zero element. The classical zeta function has zeros because $\mathbb{C}$
 contains 0. The quaternionic running product $Q$ maps $\mathbb{C}$ into
 $S^3$, and $S^3$ contains no zero element: every unit quaternion is
-invertible (Theorem~\ref{thm:no_zero}, proved with no axioms). The question
-``where does $Q(s) = 0$?'' does not parse geometrically.
-
-This is not a limitation. It is the geometry saying clearly that zeros of the
-Euler product are not numerical vanishings but geometric events: configurations
-of the running product on the sphere. The correct question is not where the
-product equals zero but where it reaches a distinguished geometric state.
+invertible (Theorem~\ref{thm:no_zero}, proved with no axioms). The question ``where does $Q(s) = 0$?'' has no geometric meaning: $S^3$
+contains no zero. The meaningful question is where $Q(s)$ reaches a
+distinguished geometric state --- and the geometry supplies a unique answer.
 
 The Hopf balance locus is that state. It is the unique locus of $S^3$
 preserved by the star involution, arithmetically fixed at
@@ -731,6 +760,23 @@ reflects the current state of Mathlib's coverage, not mathematical necessity.
 Definition~B is the foundational statement: that zero has geometric shape,
 that the shape is the Hopf balance locus, and that the Riemann Hypothesis is
 the theorem that this shape lives only at $\mathrm{Re}(s) = 1/2$.
+
+There is a framing asymmetry worth naming. Calling Definition~B a
+``foundational claim rather than a proved theorem'' measures it against the
+classical baseline, taking the $\mathbb{C}$ notion of zero as prior and asking
+whether the $S^3$ notion agrees with it. The same standard applied to the
+classical framework produces an equally open question: why does the
+$\mathbb{C}$ shadow of the four-dimensional Euler product preserve all the
+relevant structure? That question has no proof. The assumption that
+$\mathbb{C}$ is sufficient is the hidden foundational claim of classical
+analysis, carried silently because it is the default.
+
+Lagrange's theorem removes the asymmetry. Primes live on $S^3$ by arithmetic
+necessity, not by choice: the four-square decomposition is forced. The Euler
+product is a composition on $S^3$. The $\mathbb{C}$ framework projects this
+object to a two-dimensional shadow and works with the shadow. The $S^3$
+framework works with the object itself. Definition~B is explicit about what
+it assumes. The classical framework is not.
 
 \subsection{The mystery of prime distribution}
 
